@@ -8,19 +8,33 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TreatmentsRelationManager extends RelationManager
 {
     protected static string $relationship = 'treatments';
 
+    protected static ?string $modelLabel = '治療';
+
     public function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('description')
+                    ->label('説明')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->columnSpan('full'),
+                Forms\Components\Textarea::make('notes')
+                    ->label('注釈')
+                    ->maxLength(65535)
+                    ->columnSpan('full'),
+                Forms\Components\TextInput::make('price')
+                    ->label('料金')
+                    ->numeric()
+                    ->prefix('円')
+                    ->maxValue(42949672.95),
             ]);
     }
 
@@ -29,7 +43,8 @@ class TreatmentsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('description')
             ->columns([
-                Tables\Columns\TextColumn::make('description'),
+                Tables\Columns\TextColumn::make('description')
+                    ->label('説明'),
             ])
             ->filters([
                 //
@@ -46,5 +61,10 @@ class TreatmentsRelationManager extends RelationManager
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function getTitle(Model $ownerRecord, string $pageClass): string
+    {
+        return '治療';
     }
 }
