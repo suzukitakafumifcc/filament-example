@@ -25,6 +25,12 @@ docker run --rm \
     composer install --ignore-platform-reqs
 ```
 
+### データベースのマイグレーション
+
+```bash
+sail artisan migrate
+```
+
 ## 使用法
 
 ### ユーザーの作成
