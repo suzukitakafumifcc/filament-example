@@ -69,10 +69,36 @@ class PatientResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->label('名前')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('type')
+                    ->label('種類')
+                    ->formatStateUsing(function ($state) {
+                        switch ($state) {
+                            case 'cat':
+                                return '猫';
+                            case 'dog':
+                                return '犬';
+                            default:
+                                return 'ウサギ';
+                        }
+                    }),
+                Tables\Columns\TextColumn::make('date_of_birth')
+                    ->label('生年月日')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('owner.name')
+                    ->label('飼い主')
+                    ->searchable(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('type')
+                    ->label('種類')
+                    ->options([
+                        'cat' => '猫',
+                        'dog' => '犬',
+                        'rabbit' => 'ウサギ'
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
