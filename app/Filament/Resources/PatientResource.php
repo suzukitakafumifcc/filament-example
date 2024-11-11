@@ -25,7 +25,43 @@ class PatientResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name')
+                    ->label('名前')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\Select::make('type')
+                    ->label('種類')
+                    ->options([
+                        'cat' => '猫',
+                        'dog' => '犬',
+                        'rabbit' => 'ウサギ',
+                    ])
+                    ->required(),
+                Forms\Components\DatePicker::make('date_of_birth')
+                    ->label('生年月日')
+                    ->required()
+                    ->maxDate(now()),
+                Forms\Components\Select::make('owner_id')
+                    ->label('飼い主')
+                    ->relationship('owner', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('name')
+                            ->label('名前')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('email')
+                            ->label('メールアドレス')
+                            ->email()
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('phone')
+                            ->label('電話番号')
+                            ->tel()
+                            ->required(),
+                    ])
+                    ->required(),
             ]);
     }
 
