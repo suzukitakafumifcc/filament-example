@@ -45,6 +45,13 @@ class TreatmentsRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('description')
                     ->label('説明'),
+                Tables\Columns\TextColumn::make('price')
+                    ->label('代金')
+                    ->money('JPY')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('診療日')
+                    ->dateTime('Y-m-d H:i'),
             ])
             ->filters([
                 //
