@@ -17,6 +17,8 @@ class TreatmentsRelationManager extends RelationManager
 
     protected static ?string $modelLabel = '治療';
 
+    protected static ?string $title = '治療';
+
     public function form(Form $form): Form
     {
         return $form
@@ -68,10 +70,5 @@ class TreatmentsRelationManager extends RelationManager
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getTitle(Model $ownerRecord, string $pageClass): string
-    {
-        return '治療';
     }
 }
