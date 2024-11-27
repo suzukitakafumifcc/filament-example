@@ -25,10 +25,16 @@ docker run --rm \
     composer install --ignore-platform-reqs
 ```
 
+### 暗号キーの生成
+
+```bash
+php artisan key:generate
+```
+
 ### データベースのマイグレーション
 
 ```bash
-sail artisan migrate
+php artisan migrate
 ```
 
 ## 使用法
