@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -12,6 +13,10 @@ class Treatment extends Model
         'note',
         'patient_id',
         'price',
+    ];
+
+    protected $casts = [
+        'price' => MoneyCast::class,
     ];
 
     public function patient(): BelongsTo
