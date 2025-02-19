@@ -30,6 +30,12 @@ php artisan migrate
 
 ## 使い方
 
+### Filamentユーザーの作成
+
+```bash
+php artisan make:filament-user
+```
+
 ### 開発サーバーの起動
 
 ```bash
