@@ -19,40 +19,47 @@ class PatientResource extends Resource
 {
     protected static ?string $model = Patient::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-heart';
+
+    protected static ?string $modelLabel = '患者';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('名前')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('type')
+                    ->label('種類')
                     ->options([
-                        'cat' => 'Cat',
-                        'dog' => 'Dog',
-                        'rabbit' => 'Rabbit',
+                        'cat' => '猫',
+                        'dog' => '犬',
+                        'rabbit' => 'ウサギ',
                     ])
                     ->required(),
                 Forms\Components\DatePicker::make('date_of_birth')
+                    ->label('生年月日')
                     ->required()
                     ->maxDate(now()),
                 Forms\Components\Select::make('owner_id')
+                    ->label('飼い主')
                     ->relationship('owner', 'name')
                     ->searchable()
                     ->preload()
                     ->createOptionForm([
                         Forms\Components\TextInput::make('name')
+                            ->label('名前')
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('email')
-                            ->label('Email address')
+                            ->label('メールアドレス')
                             ->email()
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('phone')
-                            ->label('Phone number')
+                            ->label('電話番号')
                             ->tel()
                             ->required(),
                     ])
@@ -65,11 +72,23 @@ class PatientResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('名前')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('type'),
+                Tables\Columns\TextColumn::make('type')
+                    ->label('種類')
+                    ->formatStateUsing(function (string $state): string {
+                        return match ($state) {
+                            'cat' => '猫',
+                            'dog' => '犬',
+                            'rabbit' => 'ウサギ',
+                            default => $state,
+                        };
+                    }),
                 Tables\Columns\TextColumn::make('date_of_birth')
+                    ->label('生年月日')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('owner.name')
+                    ->label('飼い主')
                     ->searchable(),
             ])
             ->filters([
